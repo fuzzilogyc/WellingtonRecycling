@@ -1,0 +1,74 @@
+package org.fuzz.wellyrecycling.search
+
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_search.*
+import org.apache.commons.lang3.StringUtils
+import org.fuzz.wellyrecycling.R
+import org.fuzz.wellyrecycling.databinding.FragmentSearchBinding
+import org.koin.android.viewmodel.ext.android.viewModel
+
+
+class SearchFragment : Fragment() {
+
+    val viewModel : SearchViewModel by viewModel()
+
+    private lateinit var binding: FragmentSearchBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.searchList.observe(this, Observer {
+            // update list
+        })
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = SearchResultsAdapter()
+        recyclerView.addItemDecoration(DividerItemDecoration(context, layoutManager.orientation))
+        binding.viewModel = viewModel
+        setupViews()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    private fun setupViews() {
+        autoCompleteTextView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {}
+
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {}
+
+            override fun afterTextChanged(editable: Editable) {
+                val searchTerm = editable.toString()
+                if (StringUtils.isNotEmpty(searchTerm) && searchTerm.length > 2) {
+                    viewModel.getSearchResults(searchTerm)
+                }
+            }
+        })
+    }
+
+    companion object {
+        private val STREET_SEARCH_HOST =
+            "http://wellington.govtd.nz/layouts/wcc/GeneralLayout.aspx/GetRubbishCollectionStreets"
+
+        private val COLLECTION_DATES_HOST =
+            "http://wellington.govt.nz/services/environment-and-waste/rubbish-and-recycling/collection-days/components/collection-search-results"
+    }
+
+}
