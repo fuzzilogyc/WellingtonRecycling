@@ -8,12 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import org.fuzz.wellyrecycling.R
 import org.fuzz.wellyrecycling.databinding.SearchItemViewBinding
 
-class SearchResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SearchResultsAdapter(private val clickListener: OnClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    interface OnClickListener {
+        fun onItemClick(item: SearchResult)
+    }
 
     private var items: List<SearchResult> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ItemViewHolder(parent)
+        return ItemViewHolder(clickListener, parent)
 //        if (viewType == -1) {
 //            LoadingViewHolder(parent)
 //        } else {
@@ -46,6 +50,7 @@ class SearchResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     class ItemViewHolder(
+        private val clickListener: OnClickListener,
         private val parent: ViewGroup,
         private val binding: SearchItemViewBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
@@ -55,9 +60,11 @@ class SearchResultsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         )
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SearchResult) {
+            binding.root.setOnClickListener {
+                clickListener.onItemClick(item)
+            }
             binding.item = item
         }
     }
-
 
 }

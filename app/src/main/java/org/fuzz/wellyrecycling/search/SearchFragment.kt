@@ -1,8 +1,10 @@
 package org.fuzz.wellyrecycling.search
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +16,17 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.apache.commons.lang3.StringUtils
+import org.fuzz.wellyrecycling.MainActivity
 import org.fuzz.wellyrecycling.R
 import org.fuzz.wellyrecycling.databinding.FragmentSearchBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SearchResultsAdapter.OnClickListener {
 
     val viewModel : SearchViewModel by viewModel()
+
+    private lateinit var activity: MainActivity
 
     private lateinit var binding: FragmentSearchBinding
 
@@ -32,11 +37,16 @@ class SearchFragment : Fragment() {
         })
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.activity = context as MainActivity
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = SearchResultsAdapter()
+        recyclerView.adapter = SearchResultsAdapter(this)
         recyclerView.addItemDecoration(DividerItemDecoration(context, layoutManager.orientation))
         binding.viewModel = viewModel
         setupViews()
@@ -46,6 +56,11 @@ class SearchFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onItemClick(item: SearchResult) {
+        // go to results
+        activity.goToDisplay()
     }
 
     private fun setupViews() {
