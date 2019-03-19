@@ -4,11 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -60,7 +58,7 @@ class SearchFragment : Fragment(), SearchResultsAdapter.OnClickListener {
 
     override fun onItemClick(item: SearchResult) {
         // go to results
-        activity.goToDisplay()
+        activity.goToDisplay(item)
     }
 
     private fun setupViews() {

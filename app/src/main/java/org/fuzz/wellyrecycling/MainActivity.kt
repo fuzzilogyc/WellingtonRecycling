@@ -3,7 +3,9 @@ package org.fuzz.wellyrecycling
 import android.os.Bundle
 import android.view.Menu
 import androidx.fragment.app.FragmentActivity
+import org.fuzz.wellyrecycling.results.DisplayResultFragment
 import org.fuzz.wellyrecycling.search.SearchFragment
+import org.fuzz.wellyrecycling.search.SearchResult
 
 class MainActivity : FragmentActivity() {
 
@@ -27,7 +29,7 @@ class MainActivity : FragmentActivity() {
         ft.commit()
     }
 
-    fun goToDisplay() {
+    fun goToDisplay(street: SearchResult) {
         val ft = supportFragmentManager.beginTransaction()
         ft.setCustomAnimations(
             R.anim.card_flip_left_in, R.anim.card_flip_left_out,
@@ -35,7 +37,7 @@ class MainActivity : FragmentActivity() {
         )
         val fragment = DisplayResultFragment()
         val args = Bundle()
-        //        args.putParcelable("", result);
+        args.putParcelable("street", street);
         fragment.arguments = args
         ft.replace(R.id.container, fragment)
         ft.commit()

@@ -1,3 +1,7 @@
 package org.fuzz.wellyrecycling.search
 
-data class SearchResult(val key : String, val street : String, val suburb: String)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class SearchResult(val key : String, val street : String, val suburb: String) : Parcelable
