@@ -42,6 +42,7 @@ val appModule = module {
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://wellington.govt.nz/")
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(client)
             .build()
 

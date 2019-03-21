@@ -26,7 +26,7 @@ class DisplayResultFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            viewModel.street = it.getParcelable<SearchResult>("street")
+            viewModel.street = it.getParcelable("street")
         }
     }
 
@@ -52,13 +52,6 @@ class DisplayResultFragment : Fragment() {
         super.onStart()
         if (!viewModel.street.key.isEmpty()) {
             viewModel.getStreetCollection(viewModel.street.key)
-            //load url
-//            val postData = "streetId=" + URLEncoder.encode(viewModel.street.key, "UTF-8") + "&streetName=" + URLEncoder.encode(
-//                (viewModel.street.street + ", " + viewModel.street.suburb),
-//                "UTF-8"
-//            )
-//            webView.webViewClient = WebViewClient()
-//            webView.loadUrl("http://wellington.govt.nz/services/environment-and-waste/rubbish-and-recycling/collection-days/components/collection-search-results?streetId=" + viewModel.street.key)
         }
     }
 

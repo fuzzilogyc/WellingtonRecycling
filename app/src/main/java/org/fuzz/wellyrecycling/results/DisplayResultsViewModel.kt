@@ -12,9 +12,9 @@ import org.fuzz.wellyrecycling.search.SearchResult
 class DisplayResultsViewModel(private val wccRecyclingRepository: WccRecyclingRepository) : ViewModel() {
 
     val streetCollectionResult : MutableLiveData<String> = MutableLiveData()
-
     var street : SearchResult = SearchResult("", "", "")
-    val isLoadingVisible = street.key.isEmpty()
+    val isLoadingVisible : Boolean
+            get() = streetCollectionResult.value != null
 
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)

@@ -8,8 +8,7 @@ class WccRecyclingRepositoryImpl(private val wccRecyclingJSONService: WccRecycli
     }
 
     override suspend fun getStreetCollection(streetId: String): String {
-        val call = wccRecyclingRawService.getStreetCollection(streetId)
-        val response = call.execute()
-        return if (response.raw().body().toString() != null) response.raw().body().toString() else ""
+        val responseBody = wccRecyclingRawService.getStreetCollection(streetId).await()
+        return responseBody.string() ?: ""
     }
 }
