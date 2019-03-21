@@ -50,7 +50,7 @@ class DisplayResultFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        if (viewModel.isLoadingVisible) {
+        if (!viewModel.street.key.isEmpty()) {
             viewModel.getStreetCollection(viewModel.street.key)
             //load url
 //            val postData = "streetId=" + URLEncoder.encode(viewModel.street.key, "UTF-8") + "&streetName=" + URLEncoder.encode(
