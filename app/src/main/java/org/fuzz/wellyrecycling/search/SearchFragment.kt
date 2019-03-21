@@ -28,13 +28,6 @@ class SearchFragment : Fragment(), SearchResultsAdapter.OnClickListener {
 
     private lateinit var binding: FragmentSearchBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.searchList.observe(this, Observer {
-            // update list
-        })
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         this.activity = context as MainActivity
@@ -74,14 +67,6 @@ class SearchFragment : Fragment(), SearchResultsAdapter.OnClickListener {
                 }
             }
         })
-    }
-
-    companion object {
-        private val STREET_SEARCH_HOST =
-            "http://wellington.govtd.nz/layouts/wcc/GeneralLayout.aspx/GetRubbishCollectionStreets"
-
-        private val COLLECTION_DATES_HOST =
-            "http://wellington.govt.nz/services/environment-and-waste/rubbish-and-recycling/collection-days/components/collection-search-results"
     }
 
 }

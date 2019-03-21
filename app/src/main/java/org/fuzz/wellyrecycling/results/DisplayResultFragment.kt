@@ -14,6 +14,7 @@ import org.fuzz.wellyrecycling.databinding.FragmentDisplayResultsBinding
 import org.fuzz.wellyrecycling.search.SearchResult
 import org.koin.android.viewmodel.ext.android.viewModel
 
+
 class DisplayResultFragment : Fragment() {
 
     val viewModel : DisplayResultsViewModel by viewModel()
@@ -47,10 +48,24 @@ class DisplayResultFragment : Fragment() {
         this.activity = context as MainActivity
     }
 
-    private fun setupButtons() {
-        previous_week.setOnClickListener { println("Clicked prev") }
+    override fun onStart() {
+        super.onStart()
+        if (viewModel.isLoadingVisible) {
+            viewModel.getStreetCollection(viewModel.street.key)
+            //load url
+//            val postData = "streetId=" + URLEncoder.encode(viewModel.street.key, "UTF-8") + "&streetName=" + URLEncoder.encode(
+//                (viewModel.street.street + ", " + viewModel.street.suburb),
+//                "UTF-8"
+//            )
+//            webView.webViewClient = WebViewClient()
+//            webView.loadUrl("http://wellington.govt.nz/services/environment-and-waste/rubbish-and-recycling/collection-days/components/collection-search-results?streetId=" + viewModel.street.key)
+        }
+    }
 
-        next_week.setOnClickListener { println("Clicked next") }
+    private fun setupButtons() {
+//        previous_week.setOnClickListener { println("Clicked prev") }
+//
+//        next_week.setOnClickListener { println("Clicked next") }
 
         search_button.setOnClickListener { activity.goToSearch() }
 

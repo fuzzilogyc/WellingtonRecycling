@@ -6,4 +6,7 @@ class WccRecyclingRepositoryImpl(private val wccRecyclingService: WccRecyclingSe
         return wccRecyclingService.getSearchResults(SearchRequestBody(searchTerm)).await()
     }
 
+    override suspend fun getStreetCollection(streetId: String): String {
+        return wccRecyclingService.getStreetCollection(streetId).await()
+    }
 }
