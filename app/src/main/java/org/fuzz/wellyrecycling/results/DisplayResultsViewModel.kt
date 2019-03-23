@@ -11,12 +11,16 @@ class DisplayResultsViewModel(private val wccRecyclingRepository: WccRecyclingRe
 
     val collectionInformation : MutableLiveData<CollectionInformation> = MutableLiveData()
     var street : SearchResult = SearchResult("", "", "")
-    val isLoadingVisible : Boolean
-            get() = collectionInformation.value != null
+    var isLoadingVisible : MutableLiveData<Boolean> = MutableLiveData()
+
+    init {
+        isLoadingVisible.value = true
+    }
 
     fun getStreetCollection(streetId: String) {
         viewModelScope.launch {
             collectionInformation.value = wccRecyclingRepository.getStreetCollection(streetId)
+            isLoadingVisible.value = false
         }
     }
 }

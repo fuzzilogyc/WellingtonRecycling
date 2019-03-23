@@ -9,8 +9,13 @@ class WccRecyclingRepositoryImpl(private val wccRecyclingJSONService: WccRecycli
         return wccRecyclingJSONService.getSearchResults(SearchRequestBody(searchTerm)).await()
     }
 
-    override suspend fun getStreetCollection(streetId: String) : CollectionInformation {
-        val responseBody = wccRecyclingRawService.getStreetCollection(streetId).await()
+    override suspend fun getStreetCollection(streetId: String, weeksToLookAhead: Int) : CollectionInformation {
+        val responseBody = wccRecyclingRawService.getStreetCollection(streetId,
+            if (weeksToLookAhead > 0) {
+                weeksToLookAhead
+            } else {
+                null
+            }).await()
         val responseString = responseBody.string()
         val nextCollectionDate = responseString.substring(
             responseString.indexOf("<p class=\"collection-date\">") + 27,

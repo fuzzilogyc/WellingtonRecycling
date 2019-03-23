@@ -18,13 +18,7 @@ class SearchViewModel(private val wccRecyclingRepository: WccRecyclingRepository
         viewModelScope.launch {
             val dto = wccRecyclingRepository.getSearchResults(searchTerm)
             val results = ArrayList<SearchResult>()
-            if (dto.d == null) {
-                return@launch
-            }
             for (item in dto.d) {
-                if (item.Key == null || item.Value == null) {
-                    return@launch
-                }
                 val result = SearchResult(item.Key, item.Value.split(',')[0], item.Value.split(',')[1])
                 results.add(result)
             }

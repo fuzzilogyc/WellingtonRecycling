@@ -4,5 +4,5 @@ import org.fuzz.wellyrecycling.results.CollectionInformation
 
 interface WccRecyclingRepository {
     suspend fun getSearchResults(searchTerm: String) : RecyclingSearchResultsDTO
-    suspend fun getStreetCollection(streetId: String) : CollectionInformation
+    suspend fun getStreetCollection(streetId: String, weeksToLookAhead: Int = 0) : CollectionInformation
 }

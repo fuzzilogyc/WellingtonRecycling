@@ -25,7 +25,7 @@ class MainActivity : FragmentActivity() {
             R.anim.card_flip_right_in, R.anim.card_flip_right_out,
             R.anim.card_flip_left_in, R.anim.card_flip_left_out
         )
-        ft.replace(R.id.container, SearchFragment())
+        ft.replace(R.id.container, SearchFragment()).addToBackStack("search")
         ft.commit()
     }
 
@@ -39,7 +39,7 @@ class MainActivity : FragmentActivity() {
         val args = Bundle()
         args.putParcelable("street", street);
         fragment.arguments = args
-        ft.replace(R.id.container, fragment)
+        ft.replace(R.id.container, fragment).addToBackStack("display")
         ft.commit()
     }
 
