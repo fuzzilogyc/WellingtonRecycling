@@ -37,10 +37,9 @@ dependencies {
     kapt "com.android.databinding:compiler:3.1.4"
     kapt "androidx.lifecycle:lifecycle-compiler:2.1.0-alpha03"
 
-//    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-alpha03"
-//    implementation group: 'androidx.lifecycle', name: 'lifecycle-viewmodel-ktx', version: '2.1.0-alpha03'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-alpha03"
 
-//    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha02"
+//    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha03"
 
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
 

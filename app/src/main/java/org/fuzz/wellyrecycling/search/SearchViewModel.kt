@@ -2,9 +2,7 @@ package org.fuzz.wellyrecycling.search
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.fuzz.wellyrecycling.network.WccRecyclingRepository
 
@@ -16,16 +14,8 @@ class SearchViewModel(private val wccRecyclingRepository: WccRecyclingRepository
         searchList.value = mutableListOf()
     }
 
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
-
     fun getSearchResults(searchTerm: String) {
-        uiScope.launch {
+        viewModelScope.launch {
             val dto = wccRecyclingRepository.getSearchResults(searchTerm)
             val results = ArrayList<SearchResult>()
             if (dto.d == null) {

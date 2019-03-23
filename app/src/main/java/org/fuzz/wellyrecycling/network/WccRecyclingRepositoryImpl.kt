@@ -1,5 +1,7 @@
 package org.fuzz.wellyrecycling.network
 
+import org.fuzz.wellyrecycling.results.CollectionInformation
+
 class WccRecyclingRepositoryImpl(private val wccRecyclingJSONService: WccRecyclingJSONService,
                                  private val wccRecyclingRawService: WccRecyclingRawService) : WccRecyclingRepository {
 
@@ -7,8 +9,20 @@ class WccRecyclingRepositoryImpl(private val wccRecyclingJSONService: WccRecycli
         return wccRecyclingJSONService.getSearchResults(SearchRequestBody(searchTerm)).await()
     }
 
-    override suspend fun getStreetCollection(streetId: String): String {
+    override suspend fun getStreetCollection(streetId: String) : CollectionInformation {
         val responseBody = wccRecyclingRawService.getStreetCollection(streetId).await()
-        return responseBody.string() ?: ""
+        val responseString = responseBody.string()
+        val nextCollectionDate = responseString.substring(
+            responseString.indexOf("<p class=\"collection-date\">") + 27,
+            responseString.indexOf(" (out before"))
+        val collectionType =
+            if (responseString.indexOf("Glass crate") == -1) {
+                "glass"
+            } else {
+                "recycling"
+            }
+
+        return CollectionInformation(nextCollectionDate.trim(), collectionType)
     }
+
 }
