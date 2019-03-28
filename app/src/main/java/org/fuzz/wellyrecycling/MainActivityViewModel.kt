@@ -2,9 +2,11 @@ package org.fuzz.wellyrecycling
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.fuzz.wellyrecycling.network.LocalStore
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import org.fuzz.wellyrecycling.network.WccRecyclingRepository
 
-class MainActivityViewModel(private val localStore: LocalStore) : ViewModel() {
+class MainActivityViewModel(private val repo: WccRecyclingRepository) : ViewModel() {
 
     private lateinit var appState : MutableLiveData<AppState>
     val collectionStreetId : MutableLiveData<String> = MutableLiveData()
@@ -12,12 +14,14 @@ class MainActivityViewModel(private val localStore: LocalStore) : ViewModel() {
     fun observeAppState() : MutableLiveData<AppState> {
         appState = MutableLiveData()
 
-        val savedStreetCollection = localStore.getSavedStreetCollections()
-        if (savedStreetCollection != null) {
-            appState.value = AppState.SAVED
-            collectionStreetId.value = savedStreetCollection
-        } else {
-            appState.value = AppState.EMPTY
+        viewModelScope.launch {
+            val savedStreetInfo = repo.getSavedStreetInfo()
+            if (savedStreetInfo != null) {
+                appState.value = AppState.SAVED
+                collectionStreetId.value = savedStreetInfo.key
+            } else {
+                appState.value = AppState.EMPTY
+            }
         }
 
         return appState

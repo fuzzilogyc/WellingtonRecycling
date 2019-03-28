@@ -8,5 +8,6 @@ interface WccRecyclingRepository {
     suspend fun getStreetCollectionFromNetwork(street: StreetInfo, weeksToLookAhead: Int = 0) : CollectionInformation
 
     suspend fun getStreetCollectionFromLocal(streetId: String): CollectionInformation?
-    fun getSavedStreetCollections(): String?
+    suspend fun getSavedStreetInfo(): StreetInfo?
+    suspend fun saveSelectedStreetInfo(streetId: String, streetInfo: StreetInfo)
 }

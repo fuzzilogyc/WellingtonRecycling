@@ -49,8 +49,8 @@ class SearchFragment : Fragment(), SearchResultsAdapter.OnClickListener {
     }
 
     override fun onItemClick(item: StreetInfo) {
-        // go to results
-        activity.goToDisplay(item)
+        viewModel.onItemClick(item)
+        activity.goToDisplay()
     }
 
     private fun setupViews() {

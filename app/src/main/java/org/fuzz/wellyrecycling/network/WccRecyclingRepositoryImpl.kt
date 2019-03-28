@@ -37,12 +37,16 @@ class WccRecyclingRepositoryImpl(private val wccRecyclingJSONService: WccRecycli
 
     }
 
-    override fun getSavedStreetCollections() : String? {
+    override suspend fun getSavedStreetInfo() : StreetInfo? {
         return localStore.getSavedStreetCollections()
     }
 
     override suspend fun getStreetCollectionFromLocal(streetId: String) : CollectionInformation? {
         return localStore.getCollectionInformation(streetId)
+    }
+
+    override suspend fun saveSelectedStreetInfo(streetId: String, streetInfo: StreetInfo) {
+        return localStore.putSavedStreetCollections(streetId, streetInfo)
     }
 
 }

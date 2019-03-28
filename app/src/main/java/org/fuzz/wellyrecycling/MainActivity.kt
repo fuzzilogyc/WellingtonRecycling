@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer
 import org.fuzz.wellyrecycling.empty.EmptyFragment
 import org.fuzz.wellyrecycling.results.DisplayResultFragment
 import org.fuzz.wellyrecycling.search.SearchFragment
-import org.fuzz.wellyrecycling.search.StreetInfo
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : FragmentActivity() {
@@ -57,7 +56,7 @@ class MainActivity : FragmentActivity() {
         ft.commit()
     }
 
-    fun goToDisplay(street: StreetInfo) {
+    fun goToDisplay() {
         val ft = supportFragmentManager.beginTransaction()
         ft.setCustomAnimations(
             R.anim.card_flip_left_in, R.anim.card_flip_left_out,

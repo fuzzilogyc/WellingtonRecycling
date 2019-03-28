@@ -25,4 +25,10 @@ class SearchViewModel(private val wccRecyclingRepository: WccRecyclingRepository
             searchList.value = results
         }
     }
+
+    fun onItemClick(item: StreetInfo) {
+        viewModelScope.launch {
+            wccRecyclingRepository.saveSelectedStreetInfo(item.key, item)
+        }
+    }
 }

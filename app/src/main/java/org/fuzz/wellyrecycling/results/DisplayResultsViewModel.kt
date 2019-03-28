@@ -16,11 +16,14 @@ class DisplayResultsViewModel(private val wccRecyclingRepository: WccRecyclingRe
 
     fun checkForSavedStreetCollection() {
         viewModelScope.launch {
-            val streetId = wccRecyclingRepository.getSavedStreetCollections()
-            if (streetId != null) {
-                collectionInformation.value = wccRecyclingRepository.getStreetCollectionFromLocal(streetId)
-                streetInformation = collectionInformation.value!!.streetInfo
-                refreshFromNetwork()
+            val streetInfo = wccRecyclingRepository.getSavedStreetInfo()
+            if (streetInfo != null) {
+                streetInformation = streetInfo
+                val savedCollectionInformation = wccRecyclingRepository.getStreetCollectionFromLocal(streetInfo.key)
+                if (savedCollectionInformation != null) {
+                    collectionInformation.value = savedCollectionInformation
+                    refreshFromNetwork()
+                }
             } else {
                 // TODO what to do if we get to the display results screen and there were no saved steet collections?
             }
