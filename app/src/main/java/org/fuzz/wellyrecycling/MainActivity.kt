@@ -52,7 +52,7 @@ class MainActivity : FragmentActivity() {
             R.anim.card_flip_right_in, R.anim.card_flip_right_out,
             R.anim.card_flip_left_in, R.anim.card_flip_left_out
         )
-        ft.replace(R.id.container, SearchFragment()).addToBackStack("search")
+        ft.replace(R.id.container, SearchFragment())
         ft.commit()
     }
 
