@@ -20,9 +20,10 @@ class DisplayResultsViewModel(private val wccRecyclingRepository: WccRecyclingRe
             if (streetInfo != null) {
                 streetInformation = streetInfo
                 val savedCollectionInformation = wccRecyclingRepository.getStreetCollectionFromLocal(streetInfo.key)
-                if (savedCollectionInformation != null) {
-                    collectionInformation.value = savedCollectionInformation
+                if (savedCollectionInformation == null) {
                     refreshFromNetwork()
+                } else {
+                    collectionInformation.value = savedCollectionInformation
                 }
             } else {
                 // TODO what to do if we get to the display results screen and there were no saved steet collections?
