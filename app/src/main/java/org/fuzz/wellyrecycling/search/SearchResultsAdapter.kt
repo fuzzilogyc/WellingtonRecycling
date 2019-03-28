@@ -11,10 +11,10 @@ import org.fuzz.wellyrecycling.databinding.SearchItemViewBinding
 class SearchResultsAdapter(private val clickListener: OnClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnClickListener {
-        fun onItemClick(item: SearchResult)
+        fun onItemClick(item: StreetInfo)
     }
 
-    private var items: List<SearchResult> = emptyList()
+    private var items: List<StreetInfo> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ItemViewHolder(clickListener, parent)
@@ -35,7 +35,7 @@ class SearchResultsAdapter(private val clickListener: OnClickListener) : Recycle
 
     override fun getItemViewType(position: Int) = 0
 
-    fun update(items: List<SearchResult>) {
+    fun update(items: List<StreetInfo>) {
         this.items = items
         notifyDataSetChanged()
     }
@@ -43,7 +43,7 @@ class SearchResultsAdapter(private val clickListener: OnClickListener) : Recycle
     companion object {
         @JvmStatic
         @BindingAdapter("items")
-        fun RecyclerView.bindItems(items: List<SearchResult>) {
+        fun RecyclerView.bindItems(items: List<StreetInfo>) {
             val adapter = adapter as SearchResultsAdapter
             adapter.update(items)
         }
@@ -59,7 +59,7 @@ class SearchResultsAdapter(private val clickListener: OnClickListener) : Recycle
             false
         )
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SearchResult) {
+        fun bind(item: StreetInfo) {
             binding.root.setOnClickListener {
                 clickListener.onItemClick(item)
             }

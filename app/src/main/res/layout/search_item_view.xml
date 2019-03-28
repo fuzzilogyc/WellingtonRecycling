@@ -6,7 +6,7 @@
     <data>
         <variable
                 name="item"
-                type="org.fuzz.wellyrecycling.search.SearchResult"/>
+                type="org.fuzz.wellyrecycling.search.StreetInfo"/>
     </data>
 
     <com.google.android.material.button.MaterialButton

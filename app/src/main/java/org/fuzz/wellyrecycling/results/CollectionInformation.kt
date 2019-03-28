@@ -1,3 +1,5 @@
 package org.fuzz.wellyrecycling.results
 
-class CollectionInformation(val nextCollectionDate: String, val collectionType: String)
+import org.fuzz.wellyrecycling.search.StreetInfo
+
+data class CollectionInformation(val streetInfo: StreetInfo, val nextCollectionDate: String, val collectionType: String)

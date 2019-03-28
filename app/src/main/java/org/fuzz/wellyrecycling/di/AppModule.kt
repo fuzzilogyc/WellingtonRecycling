@@ -1,12 +1,12 @@
 package org.fuzz.wellyrecycling.di
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.fuzz.wellyrecycling.network.WccRecyclingRepository
-import org.fuzz.wellyrecycling.network.WccRecyclingRepositoryImpl
-import org.fuzz.wellyrecycling.network.WccRecyclingJSONService
-import org.fuzz.wellyrecycling.network.WccRecyclingRawService
+import org.fuzz.wellyrecycling.network.*
+import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -49,6 +49,12 @@ val appModule = module {
         retrofit.create()
     }
 
-    factory<WccRecyclingRepository> { WccRecyclingRepositoryImpl(get(), get()) }
+    factory<WccRecyclingRepository> { WccRecyclingRepositoryImpl(get(), get(), get()) }
+
+    single<SharedPreferences> {
+        androidApplication().getSharedPreferences("org.fuzz.wellyrecycling.app_prefs", Context.MODE_PRIVATE)
+    }
+
+    factory<LocalStore> { SharedPreferencesLocalStore(get()) }
 
 }

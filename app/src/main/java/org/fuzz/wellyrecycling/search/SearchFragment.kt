@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -49,7 +48,7 @@ class SearchFragment : Fragment(), SearchResultsAdapter.OnClickListener {
         return binding.root
     }
 
-    override fun onItemClick(item: SearchResult) {
+    override fun onItemClick(item: StreetInfo) {
         // go to results
         activity.goToDisplay(item)
     }
