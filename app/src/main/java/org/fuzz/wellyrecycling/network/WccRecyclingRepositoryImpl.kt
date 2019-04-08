@@ -2,6 +2,8 @@ package org.fuzz.wellyrecycling.network
 
 import org.fuzz.wellyrecycling.results.CollectionInformation
 import org.fuzz.wellyrecycling.search.StreetInfo
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 
 class WccRecyclingRepositoryImpl(private val wccRecyclingJSONService: WccRecyclingJSONService,
                                  private val wccRecyclingRawService: WccRecyclingRawService,
@@ -14,6 +16,7 @@ class WccRecyclingRepositoryImpl(private val wccRecyclingJSONService: WccRecycli
     override suspend fun getStreetCollectionFromNetwork(streetInfo: StreetInfo, weeksToLookAhead: Int) : CollectionInformation {
         val responseBody = wccRecyclingRawService.getStreetCollection(streetInfo.key, weeksToLookAhead).await()
         val responseString = responseBody.string()
+
         var nextCollectionDate = responseString.substring(
             responseString.indexOf("<p class=\"collection-date\">") + 27,
             responseString.indexOf(" (out before")).trim()
@@ -22,12 +25,19 @@ class WccRecyclingRepositoryImpl(private val wccRecyclingJSONService: WccRecycli
                 responseString.indexOf("addWeeks=" + (weeksToLookAhead - 1) + "\"></a>") + 16,
                 responseString.indexOf(" (out before"))
         }
+        // try and parse nextCollectionDate
+        val dateFormat = SimpleDateFormat("E, d M")
+        val parsedDate = LocalDate.parse(nextCollectionDate, dateFormat)
+        dateFormat.format(parsedDate)
+
         val collectionType =
             if (responseString.indexOf("Glass crate") == -1) {
                 "glass"
             } else {
                 "recycling"
             }
+
+
 
         val collectionInformationFromNetwork = CollectionInformation(streetInfo, nextCollectionDate.trim(), collectionType)
 

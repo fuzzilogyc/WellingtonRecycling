@@ -1,15 +1,14 @@
 package org.fuzz.wellyrecycling
 
 import android.os.Bundle
-import android.view.Menu
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import org.fuzz.wellyrecycling.empty.EmptyFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import org.fuzz.wellyrecycling.results.DisplayResultFragment
 import org.fuzz.wellyrecycling.search.SearchFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : FragmentActivity() {
+class MainActivity : AppCompatActivity() {
 
     val viewModel : MainActivityViewModel by viewModel()
 
@@ -17,12 +16,12 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        title = ""
+
+        setSupportActionBar(toolbar)
+
         viewModel.observeAppState().observe(this, Observer {
             when(it) {
-                AppState.EMPTY ->
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, EmptyFragment())
-                        .commit()
                 AppState.SAVED ->
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.container, DisplayResultFragment())
@@ -46,16 +45,6 @@ class MainActivity : FragmentActivity() {
         })
     }
 
-    fun goToSearch() {
-        val ft = supportFragmentManager.beginTransaction()
-        ft.setCustomAnimations(
-            R.anim.card_flip_right_in, R.anim.card_flip_right_out,
-            R.anim.card_flip_left_in, R.anim.card_flip_left_out
-        )
-        ft.replace(R.id.container, SearchFragment())
-        ft.commit()
-    }
-
     fun goToDisplay() {
         val ft = supportFragmentManager.beginTransaction()
         ft.setCustomAnimations(
@@ -67,10 +56,15 @@ class MainActivity : FragmentActivity() {
         ft.commit()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
+    fun goToSearch() {
+        val ft = supportFragmentManager.beginTransaction()
+        ft.setCustomAnimations(
+            R.anim.card_flip_left_in, R.anim.card_flip_left_out,
+            R.anim.card_flip_right_in, R.anim.card_flip_right_out
+        )
+        val fragment = SearchFragment()
+        ft.replace(R.id.container, fragment).addToBackStack("")
+        ft.commit()
     }
 
 }

@@ -4,9 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -26,6 +25,11 @@ class SearchFragment : Fragment(), SearchResultsAdapter.OnClickListener {
     private lateinit var activity: MainActivity
 
     private lateinit var binding: FragmentSearchBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,6 +55,27 @@ class SearchFragment : Fragment(), SearchResultsAdapter.OnClickListener {
     override fun onItemClick(item: StreetInfo) {
         viewModel.onItemClick(item)
         activity.goToDisplay()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+        searchView.maxWidth = 10000
+
+        val queryTextListener = object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String) : Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String) : Boolean {
+                return true
+            }
+        }
+
+        searchView.setOnQueryTextListener(queryTextListener)
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun setupViews() {

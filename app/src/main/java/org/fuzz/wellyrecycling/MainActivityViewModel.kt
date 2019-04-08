@@ -20,7 +20,7 @@ class MainActivityViewModel(private val repo: WccRecyclingRepository) : ViewMode
                 appState.value = AppState.SAVED
                 collectionStreetId.value = savedStreetInfo.key
             } else {
-                appState.value = AppState.EMPTY
+                appState.value = AppState.SEARCH
             }
         }
 
@@ -30,5 +30,5 @@ class MainActivityViewModel(private val repo: WccRecyclingRepository) : ViewMode
 }
 
 enum class AppState {
-    EMPTY, SAVED, SEARCH
+    SAVED, SEARCH
 }
